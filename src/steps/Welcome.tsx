@@ -11,7 +11,7 @@ export function Welcome() {
         <Card
           step="1"
           title="Describe the stack"
-          body="Language, LLM provider, and architecture — direct SDK call or an agent framework like LangChain or LangGraph."
+          body="Language, LLM provider, and architecture - direct SDK call or an agent framework like LangChain or LangGraph."
         />
         <Card
           step="2"

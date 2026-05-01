@@ -6,7 +6,7 @@ import type { Language, Provider } from "../types";
 const LANGUAGES: { value: Language; label: string; description?: string; badge?: string }[] = [
   { value: "python", label: "Python", description: "FastAPI / Flask / Django / scripts", badge: "Recommended" },
   { value: "node", label: "Node.js", description: "Express / Fastify / serverless" },
-  { value: "typescript", label: "TypeScript", description: "Same code paths as Node — typed" },
+  { value: "typescript", label: "TypeScript", description: "Same code paths as Node - typed" },
   { value: "java", label: "Java", description: "Spring Boot / Quarkus" },
   { value: "csharp", label: "C# / .NET", description: "ASP.NET / minimal APIs" },
   { value: "go", label: "Go", description: "net/http / Gin / Echo" },

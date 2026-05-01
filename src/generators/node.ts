@@ -387,7 +387,7 @@ ${
 }
 
 function refusal(decision${ts ? ": any" : ""}) {
-  return \`I can't help with that — the request was blocked by the safety guard (\${decision.policyName ?? "policy"}: \${decision.detectionMessage ?? "no details"}).\`;
+  return \`I can't help with that - the request was blocked by the safety guard (\${decision.policyName ?? "policy"}: \${decision.detectionMessage ?? "no details"}).\`;
 }
 `;
 }
@@ -584,7 +584,7 @@ ${
 }
 
 function refusal(decision${ts ? ": any" : ""}) {
-  return \`I can't help with that — the request was blocked by the safety guard (\${decision.policyName ?? "policy"}: \${decision.detectionMessage ?? "no details"}).\`;
+  return \`I can't help with that - the request was blocked by the safety guard (\${decision.policyName ?? "policy"}: \${decision.detectionMessage ?? "no details"}).\`;
 }
 `;
 }

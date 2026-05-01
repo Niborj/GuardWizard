@@ -48,7 +48,7 @@ export function Shell({ children }: { children: ReactNode }) {
       <footer className="border-t border-cato-line/60 mt-8">
         <div className="mx-auto max-w-7xl px-6 py-4 text-[11px] text-cato-mist-2/60 flex justify-between">
           <span>
-            Cato Networks API Guard — Sales Engineering Integration Wizard
+            Cato Networks API Guard - Sales Engineering Integration Wizard
           </span>
           <span>
             Endpoint: <code className="font-mono">api.aisec.catonetworks.com</code>

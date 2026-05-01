@@ -22,7 +22,7 @@ const POINTS: { value: InspectionPoint; label: string; description: string }[] =
   {
     value: "tool_call_args",
     label: "Tool call arguments",
-    description: "Inspect tool / function call args before the tool executes. Critical for agents — blocks data exfil to external tools.",
+    description: "Inspect tool / function call args before the tool executes. Critical for agents - blocks data exfil to external tools.",
   },
   {
     value: "tool_result",

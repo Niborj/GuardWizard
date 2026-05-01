@@ -58,7 +58,7 @@ export function Output() {
   return (
     <StepFrame
       title="Your integration kit"
-      subtitle="Hand the runbook and downloadable architecture diagram to the customer alongside the code. The runbook is non-developer friendly — the code is for whoever is wiring it into the application."
+      subtitle="Hand the runbook and downloadable architecture diagram to the customer alongside the code. The runbook is non-developer friendly - the code is for whoever is wiring it into the application."
       hideNav
     >
       <div className="mb-5 flex flex-wrap items-center gap-2">

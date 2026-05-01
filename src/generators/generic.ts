@@ -71,12 +71,12 @@ ${
     return assistantText
 `;
 
-  return `# Cato API Guard — Integration Recipe (${langName})
+  return `# Cato API Guard - Integration Recipe (${langName})
 
 > Generated for ${c.customerName || "the customer"}.
 > Stack: **${c.language} / ${c.provider} / ${c.architecture}**.
 > Inspection: ${c.inspectionPoints.join(", ") || "(none)"}.
-> Action: **${c.actionMode}** — Failure mode: **${c.failureMode}**.
+> Action: **${c.actionMode}** - Failure mode: **${c.failureMode}**.
 
 We don't ship a turnkey SDK for this language combination yet. The integration is a thin HTTP wrapper around \`POST ${c.apiBaseUrl}\`. Use this recipe.
 
@@ -113,12 +113,12 @@ Steps inside:
      - \`x-cato-session-id: <sessionId>\` (optional but recommended)
    - Body: \`{ "messages": [...] }\`
 2. Set a 5-second timeout.
-3. On non-2xx or network failure: ${c.failureMode === "fail_open" ? "**fail-open** — log a warning and return a pass-through Decision" : "**fail-closed** — raise/return a blocking Decision"}.
+3. On non-2xx or network failure: ${c.failureMode === "fail_open" ? "**fail-open** - log a warning and return a pass-through Decision" : "**fail-closed** - raise/return a blocking Decision"}.
 4. On success, parse:
    - \`required_action.action_type\` (\`block_action\`, \`redact_action\`, or \`pass\`)
    - \`required_action.policy_name\`
    - \`required_action.detection_message\`
-   - \`redacted_chat.all_redacted_messages\` — the full conversation with detected entities replaced by named placeholders.
+   - \`redacted_chat.all_redacted_messages\` - the full conversation with detected entities replaced by named placeholders.
 
 ## 3. Wire inspection into the chat flow
 
@@ -213,7 +213,7 @@ function languageHints(c: WizardConfig): {
 }
 
 function rawHttp(c: WizardConfig): string {
-  return `### Cato API Guard — analyze request
+  return `### Cato API Guard - analyze request
 POST ${c.apiBaseUrl}
 Content-Type: application/json
 Authorization: Bearer {{${c.guardKeyEnvVar}}}

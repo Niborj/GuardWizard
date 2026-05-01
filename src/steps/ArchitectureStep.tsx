@@ -18,7 +18,7 @@ export function ArchitectureStep() {
   return (
     <StepFrame
       title="How does the app talk to the model?"
-      subtitle="This determines where guard hooks get inserted — directly around an SDK call, or as middleware inside an agent framework."
+      subtitle="This determines where guard hooks get inserted - directly around an SDK call, or as middleware inside an agent framework."
     >
       <Choice
         columns={2}

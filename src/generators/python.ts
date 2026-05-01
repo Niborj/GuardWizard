@@ -59,7 +59,7 @@ export function generatePython(c: WizardConfig): {
       path: integrationFilename(c),
       language: "python",
       description:
-        "Generic integration recipe — adapt this skeleton to the customer's specific framework.",
+        "Generic integration recipe - adapt this skeleton to the customer's specific framework.",
       content: pythonDirectIntegration(c),
     });
   }
@@ -197,7 +197,7 @@ class CatoGuard:
 
         The 'messages' arg must be in OpenAI format: a list of dicts with
         at least 'role' and 'content'. Tool calls / tool results should
-        also be passed in this list — Cato understands them natively.
+        also be passed in this list - Cato understands them natively.
         """
         msgs = list(messages)
         headers = {
@@ -365,7 +365,7 @@ ${
             decision.messages = redacted`
                 : `# log_only: never block or modify, but log the detection
         if action and action != "pass":
-            logger.info("Cato detection (log_only): %s — %s", policy, detection)`
+            logger.info("Cato detection (log_only): %s - %s", policy, detection)`
         }
 
         return decision
@@ -525,7 +525,7 @@ ${
 
 def _refusal(decision):
     return (
-        "I can't help with that — the request was blocked by the safety guard "
+        "I can't help with that - the request was blocked by the safety guard "
         f"({decision.policy_name or 'policy'}: {decision.detection_message or 'no details'})."
     )
 
@@ -553,7 +553,7 @@ client = OpenAI()`,
         imports: `import anthropic
 
 client = anthropic.Anthropic()`,
-        call: `    # Anthropic separates system from messages — extract if present.
+        call: `    # Anthropic separates system from messages - extract if present.
     system = next((m["content"] for m in history if m["role"] == "system"), None)
     user_messages = [m for m in history if m["role"] != "system"]
     completion = client.messages.create(
@@ -750,7 +750,7 @@ ${
 
 def _refusal(decision):
     return (
-        "I can't help with that — the request was blocked by the safety guard "
+        "I can't help with that - the request was blocked by the safety guard "
         f"({decision.policy_name or 'policy'}: {decision.detection_message or 'no details'})."
     )
 

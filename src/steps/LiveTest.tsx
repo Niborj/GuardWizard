@@ -71,7 +71,7 @@ export function LiveTest() {
       }
       if (!res.ok) {
         throw new Error(
-          `${res.status} ${res.statusText} — ${(json as { detail?: string })?.detail ?? text.slice(0, 200)}`,
+          `${res.status} ${res.statusText} - ${(json as { detail?: string })?.detail ?? text.slice(0, 200)}`,
         );
       }
       setResponse(json);
