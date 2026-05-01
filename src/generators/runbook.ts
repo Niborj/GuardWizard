@@ -57,6 +57,13 @@ You need these items:
 - The name of the application or service that calls the LLM.
 - A customer developer who can answer where the LLM call, tool calls, and streaming response code live.
 
+Guard key formats can vary:
+
+- Token key format: \`cato-4837-...\`
+- Regional key format: \`R=<region>|K=<guard-key>\`
+
+Use the key exactly as displayed in Cato. Do not add \`R=\` or \`K=\` to a \`cato-...\` key, and do not remove those fields if Cato provided a regional key.
+
 Keep the Guard key safe:
 
 - Do not commit it to source control.
@@ -70,14 +77,14 @@ This phase does not use the customer's application. It only checks the Guard end
 
 ### Option A: copy-paste curl
 
-Open \`BASIC_CURL_TEST.md\` and replace \`<guard_key>\` with the real Guard key. Run the curl command shown there.
+Open \`BASIC_CURL_TEST.md\` and replace \`<guard-key>\` with the real Guard key. Paste the key exactly as Cato shows it. Run the curl command shown there.
 
 ### Option B: environment-variable script
 
 This is safer because the key is not typed directly into the command:
 
 \`\`\`bash
-export ${c.guardKeyEnvVar}='<paste-the-guard-key-here>'
+export ${c.guardKeyEnvVar}='<guard-key-from-cato>'
 export CATO_TEST_INPUT='Can you please provide me with a due diligence check for SSN 078-05-1120?'
 bash basic-curl-test.sh
 \`\`\`
@@ -250,7 +257,7 @@ ${c.inspectionPoints.map((p) => `  - [ ] \`${p}\``).join("\n")}
 
 | Symptom | What it usually means | What to do |
 | --- | --- | --- |
-| \`401 Unauthorized\` | Bad, expired, or mismatched Guard key | Re-copy the key from Cato, keep the \`Bearer \` prefix, and confirm it belongs to this Guard |
+| \`401 Unauthorized\` | Bad, expired, copied incorrectly, changed into the wrong format, or mismatched Guard key | Re-copy the key from Cato exactly as shown, keep the \`Bearer \` prefix, and confirm it belongs to this Guard |
 | \`404 Not Found\` | Wrong endpoint or path | Confirm the endpoint is \`${c.apiBaseUrl}\` |
 | \`Action: pass\` when you expected block | Policy does not detect the sample | Test with a value the policy is configured to catch, or update the policy |
 | Curl works but app fails | App env var, dependency, or copy issue | Check \`${c.guardKeyEnvVar}\`, install dependencies, and confirm the generated client is imported correctly |

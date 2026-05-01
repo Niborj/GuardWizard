@@ -31,7 +31,7 @@ npm run preview
 
 ## Guard Key Handling
 
-Guard keys are never committed or bundled into generated kits. The live-test step sends the key only to the same-origin wizard proxy, which forwards it to Cato in the `Authorization: Bearer <guard_key>` header and does not store it.
+Guard keys are never committed or bundled into generated kits. The live-test step sends the key only to the same-origin wizard proxy, which forwards it to Cato in the `Authorization: Bearer <guard-key>` header and does not store it. Paste keys exactly as Cato shows them, whether they use the `cato-4837-...` token format or the `R=<region>|K=<guard-key>` regional format.
 
 Generated customer code reads the guard key from an environment variable, defaulting to `CATO_GUARD_KEY`, and each generated runbook instructs customers to store the key in their own secret manager.
 

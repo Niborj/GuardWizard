@@ -13,12 +13,14 @@ Use this file before touching any customer code. It proves three things:
 
 ## Copy-paste test
 
-Replace \`<guard_key>\` with the Guard key from the Cato console, then run:
+Replace \`<guard-key>\` with the Guard key from the Cato console, then run:
+
+Guard key formats can vary. You may see a token key like \`cato-4837-...\` or a regional key like \`R=<region>|K=<guard-key>\`. Paste the key exactly as Cato shows it. Do not add \`R=\` or \`K=\` unless those fields are already part of the key.
 
 \`\`\`bash
 curl '${c.apiBaseUrl}' -X POST \\
   --header 'Content-Type: application/json' \\
-  --header 'Authorization: Bearer <guard_key>' \\
+  --header 'Authorization: Bearer <guard-key>' \\
   -d '{
     "messages": [
       {
@@ -42,7 +44,7 @@ curl '${c.apiBaseUrl}' -X POST \\
 This avoids putting the Guard key in shell history:
 
 \`\`\`bash
-export ${c.guardKeyEnvVar}='<guard_key>'
+export ${c.guardKeyEnvVar}='<guard-key-from-cato>'
 export CATO_TEST_INPUT='${SAMPLE_INPUT}'
 bash basic-curl-test.sh
 \`\`\`
@@ -57,7 +59,7 @@ Look for \`required_action.action_type\` in the JSON response.
 
 ## Common problems
 
-- \`401 Unauthorized\`: The key is wrong, expired, missing the \`Bearer \` prefix, or belongs to a different Guard.
+- \`401 Unauthorized\`: The key is wrong, expired, copied with extra spaces, changed into the wrong format, missing the \`Bearer \` prefix, or belongs to a different Guard.
 - \`404 Not Found\`: Confirm the endpoint is exactly \`${c.apiBaseUrl}\`.
 - \`Action: pass\`: Use a test value that the customer's policy is configured to detect.
 - No response: Check VPN, proxy, firewall, DNS, and outbound HTTPS access.

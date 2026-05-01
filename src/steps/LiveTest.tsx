@@ -108,7 +108,7 @@ export function LiveTest() {
               <input
                 className="input pr-20 font-mono"
                 type={showKey ? "text" : "password"}
-                placeholder="R=<region>|K=<guard-key>"
+                placeholder="cato-4837-... or R=<region>|K=<guard-key>"
                 value={guardKey}
                 onChange={(e) => setGuardKey(e.target.value)}
                 autoComplete="off"
@@ -121,7 +121,11 @@ export function LiveTest() {
                 {showKey ? "hide" : "show"}
               </button>
             </div>
-            <p className="hint">Sent to the same-origin wizard proxy, then forwarded to <code className="font-mono">{config.apiBaseUrl}</code>.</p>
+            <p className="hint">
+              Paste the key exactly as Cato shows it. Both <code className="font-mono">cato-4837-...</code> token keys and{" "}
+              <code className="font-mono">R=&lt;region&gt;|K=&lt;guard-key&gt;</code> keys are valid. Sent to the same-origin wizard proxy,
+              then forwarded to <code className="font-mono">{config.apiBaseUrl}</code>.
+            </p>
           </div>
 
           <div>
