@@ -35,6 +35,13 @@ function sendJson(res, status, body) {
   res.end(JSON.stringify(body));
 }
 
+function buildUpstreamHint(status) {
+  if (status === 404) {
+    return "Cato returned 404 for the configured endpoint. Confirm the endpoint on the Guard details page. API Guards normally use https://api.aisec.catonetworks.com/fw/v1/analyze unless Cato shows a regional endpoint.";
+  }
+  return "Cato returned a non-JSON response. Confirm the endpoint, Guard type, and network path.";
+}
+
 async function readJsonBody(req, maxBytes = 1_000_000) {
   let body = "";
   for await (const chunk of req) {
@@ -93,10 +100,21 @@ async function handleCatoAnalyze(req, res) {
       signal: controller.signal,
     });
     const text = await upstream.text();
-    res.writeHead(upstream.status, {
-      "Content-Type": upstream.headers.get("content-type") || "application/json; charset=utf-8",
+    const contentType = upstream.headers.get("content-type") || "";
+    if (contentType.toLowerCase().includes("json")) {
+      res.writeHead(upstream.status, {
+        "Content-Type": contentType || "application/json; charset=utf-8",
+      });
+      res.end(text);
+      return;
+    }
+    sendJson(res, upstream.status, {
+      detail: `Cato returned a non-JSON response (${upstream.status}).`,
+      hint: buildUpstreamHint(upstream.status),
+      upstreamStatus: upstream.status,
+      upstreamContentType: contentType || "unknown",
+      bodyPreview: text.replace(/\s+/g, " ").slice(0, 300),
     });
-    res.end(text);
   } catch (error) {
     sendJson(res, 502, {
       detail: error instanceof Error ? error.message : "Unable to reach Cato API Guard.",

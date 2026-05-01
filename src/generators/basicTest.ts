@@ -60,7 +60,7 @@ Look for \`required_action.action_type\` in the JSON response.
 ## Common problems
 
 - \`401 Unauthorized\`: The key is wrong, expired, copied with extra spaces, changed into the wrong format, missing the \`Bearer \` prefix, or belongs to a different Guard.
-- \`404 Not Found\`: Confirm the endpoint is exactly \`${c.apiBaseUrl}\`.
+- \`404 Not Found\`: Confirm the endpoint matches the Cato Guard details page. API Guards normally use \`https://api.aisec.catonetworks.com/fw/v1/analyze\` unless Cato shows a regional endpoint.
 - \`Action: pass\`: Use a test value that the customer's policy is configured to detect.
 - No response: Check VPN, proxy, firewall, DNS, and outbound HTTPS access.
 `;

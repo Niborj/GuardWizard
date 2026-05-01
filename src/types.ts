@@ -53,6 +53,8 @@ export interface WizardConfig {
   apiBaseUrl: string;
 }
 
+export const DEFAULT_CATO_API_URL = "https://api.aisec.catonetworks.com/fw/v1/analyze";
+
 export const DEFAULT_CONFIG: WizardConfig = {
   customerName: "",
   language: "python",
@@ -63,7 +65,7 @@ export const DEFAULT_CONFIG: WizardConfig = {
   failureMode: "fail_open",
   guardKeyEnvVar: "CATO_GUARD_KEY",
   sessionIdStrategy: "per_conversation",
-  apiBaseUrl: "https://api.aisec.catonetworks.com/fw/v1/analyze",
+  apiBaseUrl: DEFAULT_CATO_API_URL,
 };
 
 export const STEPS = [

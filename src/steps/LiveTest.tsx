@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { StepFrame } from "../components/StepFrame";
 import { useWizard } from "../wizard";
-import type { AnalyzeResponse } from "../types";
+import { DEFAULT_CATO_API_URL, type AnalyzeResponse } from "../types";
+
+interface ErrorBody {
+  detail?: string;
+  hint?: string;
+}
 
 export function LiveTest() {
-  const { config } = useWizard();
+  const { config, setConfig } = useWizard();
   const [guardKey, setGuardKey] = useState("");
   const [showKey, setShowKey] = useState(false);
   const [testInput, setTestInput] = useState("");
@@ -67,11 +72,17 @@ export function LiveTest() {
       try {
         json = JSON.parse(text);
       } catch {
-        throw new Error(`Non-JSON response (${res.status}): ${text.slice(0, 400)}`);
+        const preview = text.replace(/\s+/g, " ").slice(0, 240);
+        const hint =
+          res.status === 404
+            ? `Cato returned a 404 HTML page. Check the Cato API endpoint in Configuration. API Guards normally use ${DEFAULT_CATO_API_URL} unless the Guard details page shows a regional endpoint.`
+            : `Cato returned a non-JSON response. Check the endpoint and try again.`;
+        throw new Error(`${hint} Response preview: ${preview}`);
       }
       if (!res.ok) {
+        const body = json as ErrorBody;
         throw new Error(
-          `${res.status} ${res.statusText} - ${(json as { detail?: string })?.detail ?? text.slice(0, 200)}`,
+          `${res.status} ${res.statusText} - ${body.detail ?? text.slice(0, 200)}${body.hint ? ` ${body.hint}` : ""}`,
         );
       }
       setResponse(json);
@@ -126,6 +137,15 @@ export function LiveTest() {
               <code className="font-mono">R=&lt;region&gt;|K=&lt;guard-key&gt;</code> keys are valid. Sent to the same-origin wizard proxy,
               then forwarded to <code className="font-mono">{config.apiBaseUrl}</code>.
             </p>
+            {config.apiBaseUrl !== DEFAULT_CATO_API_URL && (
+              <button
+                type="button"
+                className="mt-2 text-xs font-semibold text-cato-cyan hover:text-cato-mist"
+                onClick={() => setConfig({ apiBaseUrl: DEFAULT_CATO_API_URL })}
+              >
+                Reset to default API Guard endpoint
+              </button>
+            )}
           </div>
 
           <div>

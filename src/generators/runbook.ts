@@ -258,7 +258,7 @@ ${c.inspectionPoints.map((p) => `  - [ ] \`${p}\``).join("\n")}
 | Symptom | What it usually means | What to do |
 | --- | --- | --- |
 | \`401 Unauthorized\` | Bad, expired, copied incorrectly, changed into the wrong format, or mismatched Guard key | Re-copy the key from Cato exactly as shown, keep the \`Bearer \` prefix, and confirm it belongs to this Guard |
-| \`404 Not Found\` | Wrong endpoint or path | Confirm the endpoint is \`${c.apiBaseUrl}\` |
+| \`404 Not Found\` | Wrong endpoint, path, or Guard type | Confirm the endpoint matches the Cato Guard details page. API Guards normally use \`https://api.aisec.catonetworks.com/fw/v1/analyze\` unless Cato shows a regional endpoint |
 | \`Action: pass\` when you expected block | Policy does not detect the sample | Test with a value the policy is configured to catch, or update the policy |
 | Curl works but app fails | App env var, dependency, or copy issue | Check \`${c.guardKeyEnvVar}\`, install dependencies, and confirm the generated client is imported correctly |
 | Redaction appears in Cato but model receives original text | Integration ignored redacted messages | Pass \`redacted_chat.all_redacted_messages\` forward after \`redact_action\` |

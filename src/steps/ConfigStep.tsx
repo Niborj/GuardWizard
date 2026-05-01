@@ -36,7 +36,9 @@ export function ConfigStep() {
             value={config.apiBaseUrl}
             onChange={(e) => setConfig({ apiBaseUrl: e.target.value })}
           />
-          <p className="hint">Override only for non-production / regional endpoints.</p>
+          <p className="hint">
+            Use the endpoint shown on the Guard details page. Override the default only for non-production or regional endpoints.
+          </p>
         </div>
         <div>
           <label className="label mb-3">Session ID strategy</label>
