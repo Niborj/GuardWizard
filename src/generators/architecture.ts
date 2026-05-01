@@ -58,6 +58,7 @@ interface Hook {
   title: string;
   diagramTitle: string;
   diagramBody: string;
+  diagramPlacement: string;
   placement: string;
   find: string;
 }
@@ -66,40 +67,45 @@ const HOOKS: Hook[] = [
   {
     point: "system_message",
     title: "System message",
-    diagramTitle: "System prompt guard",
-    diagramBody: "Inspect the system/developer prompt before the first LLM request.",
+    diagramTitle: "System prompt",
+    diagramBody: "Inspect system instructions before the first model request.",
+    diagramPlacement: "Before the first model request.",
     placement: "Place before the first model request is assembled or sent.",
     find: "prompt templates, default instructions, persona builders, messages with role=system",
   },
   {
     point: "user_input",
     title: "User input",
-    diagramTitle: "User input guard",
-    diagramBody: "Inspect every user turn before it is sent to the model.",
+    diagramTitle: "User input",
+    diagramBody: "Inspect each user turn before the model call.",
+    diagramPlacement: "After user input, before LLM.",
     placement: "Place after the app receives the user turn and before forwarding it to the LLM.",
     find: "chat route handlers, message array builders, request DTOs, prompt variables",
   },
   {
     point: "tool_call_args",
     title: "Tool call arguments",
-    diagramTitle: "Tool call guard",
-    diagramBody: "Inspect structured tool/function arguments before any tool executes.",
+    diagramTitle: "Tool call",
+    diagramBody: "Inspect tool arguments before the tool executes.",
+    diagramPlacement: "After tool proposal, before execution.",
     placement: "Place after the model proposes a tool/function call and before the tool executes.",
     find: "tool_calls, function_call, tool invocation loops, agent action handlers",
   },
   {
     point: "tool_result",
     title: "Tool result",
-    diagramTitle: "Tool result guard",
-    diagramBody: "Inspect tool/API results before they are added back to model context.",
+    diagramTitle: "Tool result",
+    diagramBody: "Inspect tool results before model context.",
+    diagramPlacement: "After tool returns, before model context.",
     placement: "Place after the tool returns and before its result re-enters model context.",
     find: "ToolMessage, role=tool, observation, function result, returned API payload",
   },
   {
     point: "assistant_output",
     title: "Assistant output",
-    diagramTitle: "Assistant output guard",
-    diagramBody: "Inspect model output before it is shown to the user or caller.",
+    diagramTitle: "Assistant output",
+    diagramBody: "Inspect model output before user display.",
+    diagramPlacement: "After model response, before display.",
     placement: "Place after the model returns and before content is displayed or streamed onward.",
     find: "response handlers, streaming finalizers, assistant messages, completion content",
   },
@@ -396,7 +402,7 @@ function runtimePanel(c: WizardConfig, selected: Hook[]): string {
     ${arrow(604, 281, 634, 281, false, CATO.mist2, "arrowLight")}
     ${arrow(784, 281, 814, 281, false, CATO.mist2, "arrowLight")}
 
-    <rect x="82" y="356" width="814" height="370" rx="8" fill="${CATO.ink}" opacity="0.62" stroke="${CATO.line}"/>
+    <rect x="82" y="356" width="814" height="382" rx="8" fill="${CATO.ink}" opacity="0.62" stroke="${CATO.line}"/>
     <text x="110" y="392" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="900" fill="${CATO.white}">Selected guard boundaries in customer code</text>
     <text x="110" y="417" font-family="Inter, Arial, sans-serif" font-size="11" fill="${CATO.mist2}">Every green boundary pauses the next hop, sends messages to Cato, then applies the response.</text>
 
@@ -404,12 +410,11 @@ function runtimePanel(c: WizardConfig, selected: Hook[]): string {
     ${phaseColumn("Around tool execution", "Tool arguments and tool results", 372, 452, toolHooks, hookIndex)}
     ${phaseColumn("Before user sees output", "Assistant response checks", 634, 452, afterModel, hookIndex)}
 
-    <rect x="82" y="760" width="814" height="128" rx="8" fill="${CATO.black}" stroke="${CATO.line}"/>
-    <text x="110" y="796" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="900" fill="${CATO.white}">Important: Cato is not inline between the app and model</text>
-    ${textBlock("At each selected hook, the customer app makes a separate HTTP request to Cato API Guard. The app then gates the next step with Cato's response: block, redact, or pass.", 110, 824, 116, 17, {
+    <rect x="82" y="768" width="814" height="120" rx="8" fill="${CATO.black}" stroke="${CATO.line}"/>
+    <text x="110" y="804" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="900" fill="${CATO.white}">Important: Cato is not inline between the app and model</text>
+    ${textBlock("At each selected hook, the customer app makes a separate HTTP request to Cato API Guard. The app then gates the next step with Cato's response: block, redact, or pass.", 110, 832, 116, 17, {
       fill: CATO.mist2,
       size: 12,
-      maxLines: 3,
     })}
   </g>`;
 }
@@ -469,10 +474,9 @@ function placementPanel(c: WizardConfig): string {
         weight: 800,
         maxLines: 1,
       })}
-      ${textBlock(hook.placement, 1032, y + 18, 72, 13, {
+      ${textBlock(hook.diagramPlacement, 1032, y + 18, 72, 13, {
         fill: CATO.mist2,
         size: 10,
-        maxLines: 1,
       })}
     </g>`);
   });
@@ -500,12 +504,10 @@ function flowNode(
       fill: CATO.white,
       size: 13,
       weight: 800,
-      maxLines: 1,
     })}
     ${textBlock(body, x + 14, y + 53, Math.floor((width - 28) / 7), 13, {
       fill: CATO.mist2,
       size: 10,
-      maxLines: 2,
     })}
   </g>`;
 }
@@ -527,12 +529,10 @@ function exchangeNode(
       fill: textFill,
       size: 13,
       weight: 900,
-      maxLines: 1,
     })}
     ${textBlock(body, x + 18, y + 55, Math.floor((width - 36) / 7), 14, {
       fill: bodyFill,
       size: 10,
-      maxLines: 2,
     })}
   </g>`;
 }
@@ -548,7 +548,7 @@ function phaseColumn(
   const cards = hooks.length
     ? hooks
         .map((hook, index) =>
-          hookCard(hook, hookIndex.get(hook.point) ?? index + 1, x, y + 74 + index * 92)
+          hookCard(hook, hookIndex.get(hook.point) ?? index + 1, x, y + 74 + index * 100)
         )
         .join("\n")
     : mutedCard(x, y + 74, "No selected hook in this boundary");
@@ -562,20 +562,18 @@ function phaseColumn(
 
 function hookCard(hook: Hook, index: number, x: number, y: number): string {
   return `<g filter="url(#softShadow)">
-    <rect x="${x}" y="${y}" width="226" height="76" rx="8" fill="${CATO.mist}" stroke="${CATO.green}" stroke-width="2"/>
-    <rect x="${x}" y="${y}" width="8" height="76" rx="4" fill="${CATO.green}"/>
+    <rect x="${x}" y="${y}" width="226" height="86" rx="8" fill="${CATO.mist}" stroke="${CATO.green}" stroke-width="2"/>
+    <rect x="${x}" y="${y}" width="8" height="86" rx="4" fill="${CATO.green}"/>
     <circle cx="${x + 29}" cy="${y + 28}" r="15" fill="${CATO.green}"/>
     <text x="${x + 29}" y="${y + 33}" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="900" fill="${CATO.white}">${index}</text>
     ${textBlock(hook.diagramTitle, x + 54, y + 29, 21, 15, {
       fill: CATO.black,
       size: 13,
       weight: 900,
-      maxLines: 1,
     })}
-    ${textBlock(hook.diagramBody, x + 20, y + 54, 29, 13, {
+    ${textBlock(hook.diagramBody, x + 20, y + 56, 31, 13, {
       fill: "#43544D",
       size: 10,
-      maxLines: 2,
     })}
   </g>`;
 }
@@ -660,9 +658,7 @@ function wrapText(text: string, maxChars: number, maxLines?: number): string[] {
   if (current) lines.push(current);
 
   if (maxLines && lines.length > maxLines) {
-    const trimmed = lines.slice(0, maxLines);
-    trimmed[maxLines - 1] = `${trimmed[maxLines - 1].replace(/[.,;:]$/, "")}...`;
-    return trimmed;
+    return lines.slice(0, maxLines);
   }
 
   return lines;
