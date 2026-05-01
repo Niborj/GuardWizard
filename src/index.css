@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-cato-ink text-cato-mist font-sans antialiased;
+    background:
+      linear-gradient(180deg, rgba(21, 136, 100, 0.16) 0, rgba(16, 21, 19, 0) 260px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      #101513;
+    background-size: auto, 44px 44px, 44px 44px, auto;
+  }
+  ::selection {
+    background: rgba(40, 200, 229, 0.35);
+    color: white;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-cato-green text-white hover:bg-cato-green-2 shadow-sm;
+  }
+  .btn-secondary {
+    @apply btn bg-cato-navy-2 text-cato-mist border border-cato-line hover:bg-cato-navy-3;
+  }
+  .btn-ghost {
+    @apply btn text-cato-mist-2 hover:text-cato-mist hover:bg-cato-navy-2;
+  }
+  .card {
+    @apply bg-cato-navy/70 backdrop-blur-sm border border-cato-line rounded-lg;
+  }
+  .input {
+    @apply w-full rounded-md bg-cato-ink border border-cato-line px-3 py-2 text-sm text-cato-mist placeholder:text-cato-mist-2/60 focus:outline-none focus:ring-2 focus:ring-cato-green/40 focus:border-cato-green/60;
+  }
+  .label {
+    @apply block text-sm font-medium text-cato-mist mb-1;
+  }
+  .hint {
+    @apply text-xs text-cato-mist-2 mt-1;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium border;
+  }
+  .kbd {
+    @apply font-mono text-[11px] px-1.5 py-0.5 rounded border border-cato-line bg-cato-navy-2 text-cato-mist;
+  }
+}
