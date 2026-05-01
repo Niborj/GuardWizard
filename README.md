@@ -9,6 +9,7 @@ The app walks an SE through the customer's language, model provider, architectur
 - Generic HTTP/curl guidance for Java, C#, Go, Rust, Ruby, PHP, and custom stacks
 - A downloadable Cato-branded architecture SVG showing where to instrument the customer code
 - A non-developer runbook with placement guidance for unfamiliar customer codebases
+- A basic curl test for validating the Guard before customer-code changes
 - A smoke-test script that calls `POST https://api.aisec.catonetworks.com/fw/v1/analyze`
 
 ## Local Development

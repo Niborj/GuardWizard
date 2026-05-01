@@ -4,6 +4,7 @@ import { generateNode } from "./node";
 import { generateGeneric } from "./generic";
 import { generateRunbook } from "./runbook";
 import { generateArchitectureMarkdown, generateArchitectureSvg } from "./architecture";
+import { generateBasicCurlMarkdown, generateBasicCurlScript } from "./basicTest";
 
 export interface GeneratedFile {
   path: string;
@@ -37,6 +38,20 @@ export function generateKit(config: WizardConfig): GeneratedKit {
   }
 
   files.push(
+    {
+      path: "BASIC_CURL_TEST.md",
+      language: "markdown",
+      content: generateBasicCurlMarkdown(config),
+      description:
+        "Copy-paste curl test for validating the Guard key, endpoint, and policy before touching customer code.",
+    },
+    {
+      path: "basic-curl-test.sh",
+      language: "bash",
+      content: generateBasicCurlScript(config),
+      description:
+        "Runnable curl smoke test that reads the Guard key from the configured environment variable.",
+    },
     {
       path: "ARCHITECTURE.svg",
       language: "svg",
