@@ -29,6 +29,10 @@ npm run preview
 
 `npm run preview` builds the app and serves `dist/` through `server.mjs`, which also provides the `/api/cato/analyze` proxy used by the live-test step. A static-only host will still render the wizard, but the in-app live test requires this server/proxy path.
 
+## Netlify Deployment
+
+Netlify uses `netlify.toml` to build `dist/`, publish it as the frontend, and deploy `netlify/functions/cato-analyze.mjs` as the live-test proxy. The redirect from `/api/cato/analyze` to the Netlify Function keeps the browser request same-origin and avoids CORS failures.
+
 ## Guard Key Handling
 
 Guard keys are never committed or bundled into generated kits. The live-test step sends the key only to the same-origin wizard proxy, which forwards it to Cato in the `Authorization: Bearer <guard-key>` header and does not store it. Paste keys exactly as Cato shows them, whether they use the `cato-4837-...` token format or the `R=<region>|K=<guard-key>` regional format.
